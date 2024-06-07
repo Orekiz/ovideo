@@ -1,0 +1,14 @@
+#root {
+  padding: 0 5vw;
+  height: 100vh;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
