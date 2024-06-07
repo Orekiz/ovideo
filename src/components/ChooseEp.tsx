@@ -1,4 +1,4 @@
-import { EP } from "./VList"
+import { EP } from '@/typings'
 
 interface ChooseEpDto {
   eps: EP[] | undefined,
