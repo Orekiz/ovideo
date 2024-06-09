@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { Video } from "@/typings"
+import { Video, VideoArea } from "@/typings"
 import VideoComp from "../components/Video"
 import ChooseEp from "../components/ChooseEp"
 import config from "../config"
@@ -11,6 +11,7 @@ const videoDetailContainerClassNameCloseSlide = "w-0 h-0 rounded-lg bg-gray-200 
 export default function VideoDetail() {
   const location = useLocation()
   const [state, setState] = useState<Video>()
+  const [videoKeywords, setVideoKeywords] = useState<string[]>([])
   const [epChoosed, setEpChoosed] = useState<number>(0)
   const [isSlideClosed, setIsSlideClosed] = useState(false)
   const [videoDetailContainerClassName, svdcc] = useState(videoDetailContainerClassNameBase)
@@ -28,6 +29,7 @@ export default function VideoDetail() {
   useEffect(() => {
     console.log(location)
     setState(location.state)
+    setVideoKeywords([VideoArea[location.state.area], location.state.year, ...location.state.tags])
   }, [location])
   return (
     <div className="h-full py-4 grid grid-rows-[auto_1fr]">
@@ -48,8 +50,8 @@ export default function VideoDetail() {
           <h2 className="font-bold">{state?.name}</h2>
           <section className="text-sub">
             <p>
-              { 
-                state?.tags.map((tag, index) => {
+              {
+                videoKeywords.map((tag, index) => {
                   return <span key={index}>{index>0?' · ':''}{tag}</span>
                 })
               }

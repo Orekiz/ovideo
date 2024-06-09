@@ -10,6 +10,8 @@ export interface Video {
   name: string,
   type: VideoType
   subtitle: string,
+  area: VideoArea,
+  year: string,
   tags: string[],
   epCount: number,
   img: string,
@@ -19,6 +21,11 @@ export interface Video {
 export enum VideoType {
   'TV',
   'MOVIE',
+}
+
+export enum VideoArea {
+  '内地',
+  "韩国",
 }
 
 export interface EP {
