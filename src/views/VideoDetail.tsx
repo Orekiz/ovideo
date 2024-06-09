@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
-import { Video } from "../components/VList"
+import { Video } from "@/typings"
 import VideoComp from "../components/Video"
 import ChooseEp from "../components/ChooseEp"
 import config from "../config"
@@ -36,7 +36,7 @@ export default function VideoDetail() {
       </div>
       <div className="pt-4 flex gap-4 max-md:flex-col transition-all md:overflow-hidden">
         <section className="md:flex-1 flex max-md:h-50vh">
-          <VideoComp url={state?.eps[epChoosed].url} />
+          <VideoComp url={state?.eps[epChoosed].url} type={state?.eps[epChoosed].type} />
           <div
             className={`${isSlideClosed?'':'hidden!'} w-2 h-full ml-1 font-bold flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
             onClick={handleToggleSlide}
@@ -46,14 +46,16 @@ export default function VideoDetail() {
         </section>
         <section className={videoDetailContainerClassName}>
           <h2 className="font-bold">{state?.name}</h2>
-          <p className="text-sub">
-            { 
-              state?.tags.map((tag, index) => {
-                return <span key={index}>{index>0?' · ':''}{tag}</span>
-              })
-            }
+          <section className="text-sub">
+            <p>
+              { 
+                state?.tags.map((tag, index) => {
+                  return <span key={index}>{index>0?' · ':''}{tag}</span>
+                })
+              }
+            </p>
             <p>全{ state?.epCount }集</p>
-          </p>
+          </section>
           <p className="mt-4">正在播放：{state?.eps[epChoosed].title}</p>
           <div className="mt-4">
             <ChooseEp eps={state?.eps} epChoosed={epChoosed} chooseEvent={handleSetEp} />
@@ -64,7 +66,7 @@ export default function VideoDetail() {
         </section>
       </div>
       <div className="pt-2 m-auto max-w-5xl">
-        <p className="text-center text-sub font-light">声明：本站为非盈利性站点，仅供WEB在线展示学习交流，拒绝一切商业行为，否者后果自负！所涉及资源均来源于互联网，本站不提供任何视频资源存储，也不参与录制和上传。若无意侵犯了您的权利，请与我们取得联系，我们会第一时间核实和处理，谢谢！</p>
+        <p className="text-center text-sub text-sm font-light">声明：本站为非盈利性站点，仅供WEB在线展示学习交流，拒绝一切商业行为，否者后果自负！所涉及资源均来源于互联网，本站不提供任何视频资源存储，也不参与录制和上传。若无意侵犯了您的权利，请与我们取得联系<a href="mailto://hurricane_233@163.com" className="underline">@Oreki</a>，我们会第一时间核实和处理，谢谢！</p>
       </div>
     </div>
   )
