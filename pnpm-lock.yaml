@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      hls.js:
+        specifier: ^1.5.11
+        version: 1.5.11
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -1029,6 +1032,9 @@ packages:
   has-flag@4.0.0:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
+
+  hls.js@1.5.11:
+    resolution: {integrity: sha512-q3We1izi2+qkOO+TvZdHv+dx6aFzdtk3xc1/Qesrvto4thLTT/x/1FK85c5h1qZE4MmMBNgKg+MIW8nxQfxwBw==}
 
   human-signals@2.1.0:
     resolution: {integrity: sha512-B4FFZ6q/T2jhhksgkbEW3HBvWIfDW85snkQgawt07S7J5QXTk6BkNV+0yAeZrM5QpMAdYlocGoljn0sJ/WQkFw==}
@@ -2565,6 +2571,8 @@ snapshots:
   has-flag@3.0.0: {}
 
   has-flag@4.0.0: {}
+
+  hls.js@1.5.11: {}
 
   human-signals@2.1.0: {}
 

@@ -1,5 +1,7 @@
+import { useEffect, useRef } from 'react'
 import config from '../config/video'
 import { EPType } from '@/typings'
+import Hls from 'hls.js'
 
 function getVideoSrc(url: string) {
   return `${config.VIDEO_PARSER_URL}?url=${url}`
@@ -21,10 +23,32 @@ export default function VideoComp({ type, url = '' }: VideoCompDto) {
         />
     }
     case EPType.m3u8: {
-      return <video controls className='w-full h-full rounded-lg bg-black'></video>
+      return <VideoCompHls url={url}/>
     }
     default: {
       return <></>
     }
   }
+}
+
+interface VideoCompHlsDto {
+  url: string
+}
+
+function VideoCompHls({ url }: VideoCompHlsDto) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  useEffect(() => {
+    videoRef.current!.volume = 0.5
+  }, [])
+  // TODO: 实现hls播放
+  useEffect(() => {
+    if (!Hls.isSupported)
+      return
+    const hls = new Hls()
+    hls.loadSource(url)
+    hls.attachMedia(videoRef.current!)
+  }, [url])
+  return (
+    <video ref={videoRef} onCanPlay={() => videoRef.current?.play()} controls className='w-full h-full rounded-lg bg-black outline-none'></video>
+  )
 }

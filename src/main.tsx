@@ -1,10 +1,13 @@
-// import React from 'react'
+import { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 import 'uno.css'
-import VideoDetail from './views/VideoDetail.tsx'
 import App from './App.tsx'
+// import Home from './views/Home'
+
+// eslint-disable-next-line react-refresh/only-export-components
+const VideoDetailLazy = lazy(() => import('@/views/VideoDetail.tsx'))
 
 const router = createBrowserRouter([
   {
@@ -13,7 +16,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/video/:id',
-    element: <VideoDetail />
+    element: <Suspense fallback={<>loading...</>}><VideoDetailLazy /></Suspense>
   }
 ])
 
