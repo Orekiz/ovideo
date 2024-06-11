@@ -11,7 +11,7 @@ export default function VList({ videos }: VListDto ) {
         {
           videos?.sort((a, b) => b.updateTimestamp - a.updateTimestamp).map((video) => {
             return (
-              <NavLink to={`video/${video.id}`} key={video.id} state={video}>
+              <NavLink to={`video/${video.id}/1`} key={video.id} state={{...video, title: video.name}}>
                 <img referrerPolicy='no-referrer' src={video.img} alt={video.name} className='w-full rounded-lg aspect-[2/3] object-cover' />
                 <p className='text-center font-bold'>{video.name}</p>
                 <span className='block font-light text-center text-sub'>{video.subtitle}</span>

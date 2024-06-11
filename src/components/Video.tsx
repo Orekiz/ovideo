@@ -1,22 +1,19 @@
 import { useEffect, useRef } from 'react'
-import config from '../config/video'
 import { EPType } from '@/typings'
 import Hls from 'hls.js'
+import { useOutletContext } from 'react-router-dom'
 
-function getVideoSrc(url: string) {
-  return `${config.VIDEO_PARSER_URL}?url=${url}`
-}
-
-interface VideoCompDto {
+export interface VideoCompDto {
   url?: string,
   type?: number,
 }
-
-export default function VideoComp({ type, url = '' }: VideoCompDto) {
+// { type, url = '' }: VideoCompDto
+export default function VideoComp() {
+  const {type, url = ''} = useOutletContext<VideoCompDto>()
   switch(type) {
     case EPType.parse: {
       return <iframe className="border-none bg-black rounded-lg"
-        src={getVideoSrc(url)}
+        src={url}
         allowFullScreen={true}
         width="100%"
         height="100%"

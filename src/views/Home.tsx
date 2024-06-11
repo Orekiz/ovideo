@@ -2,6 +2,8 @@ import config from "../config"
 import VList from "../components/VList"
 import { useEffect, useReducer, useState } from "react"
 import { Video, VideoData, VideoType } from "@/typings"
+import { useLocation } from "react-router-dom"
+import { setTitle } from "@/utils"
 
 async function getVideoData(): Promise<VideoData> {
   const res = await fetch('/data/video.json')
@@ -16,6 +18,7 @@ const initVideoDataState = {
 export default function Home() {
   const [videoDataState, dispatchVideoDataState] = useReducer(videoDataStateReducer,initVideoDataState)
   const [videoDataList, setVideoDataList] = useState<Video[]>([])
+  const location = useLocation()
   useEffect(() => {
     (async () => {
       const { version, updateDatetime, data } = await getVideoData()
@@ -24,9 +27,12 @@ export default function Home() {
       setVideoDataList(data)
     })()
   }, [])
+  useEffect(() => {
+    setTitle(`${location.state?.title?`${location.state.title} | `:''}${config.TITLE}`)
+  }, [location])
   return (
     <>
-      <h1 className="py-5">{config.TITLE}</h1>
+      <h1 className="text-3xl py-5">{config.TITLE}</h1>
       <span className="text-sub">视频数据版本: v{videoDataState.version}，更新时间: {videoDataState.updateDatetime}</span>
       <section>
         <h2 className="py-4">电视剧</h2>
