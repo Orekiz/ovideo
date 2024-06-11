@@ -1,3 +1,4 @@
 export default {
-  TITLE: 'OVideo'
+  TITLE: 'OVideo',
+  VERSION: '0.0.1',
 }
