@@ -1,21 +1,23 @@
 import { useEffect, useState } from "react"
-import { Link, useLocation, Outlet, useNavigate } from "react-router-dom"
+import { Link, useLocation, Outlet, useNavigate, useParams } from "react-router-dom"
 import { Video, VideoArea } from "@/typings"
 import { VideoCompDto } from "../components/Video"
 import ChooseEp from "../components/ChooseEp"
 import config from "../config"
 import { setTitle } from "@/utils"
+import videodataState from "@/utils/videodata.state"
 
 const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all'
 const videoDetailContainerClassNameCloseSlide = "w-0 h-0 rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all"
 export default function VideoDetail() {
   const location = useLocation()
+  const params = useParams()
+  const navigate = useNavigate()
   const [state, setState] = useState<Video>()
   const [videoKeywords, setVideoKeywords] = useState<string[]>([])
   const [epChoosed, setEpChoosed] = useState<number>(0)
   const [isSlideClosed, setIsSlideClosed] = useState(false)
   const [videoDetailContainerClassName, svdcc] = useState(videoDetailContainerClassNameBase)
-  const navigate = useNavigate()
   const handleChooseEp = (choose: number) => {
     setEpChoosed(choose)
     navigate(`/video/${location.state.id}/${choose+1}`, {state:location.state})
@@ -29,11 +31,23 @@ export default function VideoDetail() {
     setIsSlideClosed(!isSlideClosed)
   }
   useEffect(() => {
-    console.log(location)
-    setTitle(`${location.state.title?`${location.state.title} | `:''}${config.TITLE}`)
-    setState(location.state)
-    setVideoKeywords([VideoArea[location.state.area], location.state.year, ...location.state.tags])
-  }, [location])
+    // 直接进路由会没有state
+    if (location.state) {
+      console.log(location)
+      setTitle(`${location.state.name} | ${config.TITLE}`)
+      setState(location.state)
+      setVideoKeywords([VideoArea[location.state.area], location.state.year, ...location.state.tags])
+    } else {
+      console.log(params)
+      ;(async()=> {
+        const state = await videodataState.getVideoInfo(params.id!)
+        setTitle(`${state.name} | ${config.TITLE}`)
+        setState(state)
+        setEpChoosed(parseInt(params.ep!) - 1)
+        setVideoKeywords([VideoArea[state.area], state.year, ...state.tags])
+      })()
+    }
+  }, [location, params])
   return (
     <div className="h-full py-4 grid grid-rows-[auto_1fr]">
       <div>
