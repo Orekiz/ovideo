@@ -4,7 +4,7 @@ import { resolve } from 'path'
 import react from '@vitejs/plugin-react'
 
 import UnoCSS from 'unocss/vite'
-import { presetUno } from 'unocss'
+import { presetUno, presetIcons } from 'unocss'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -15,6 +15,7 @@ export default defineConfig({
         presetUno({
           preflight: true
         }),
+        presetIcons()
       ],
       shortcuts: {
         'my-button': 'p-2 rounded-lg border-2 border-transparent cursor-pointer hover:my-button-active transition',
