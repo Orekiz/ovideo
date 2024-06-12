@@ -1,14 +1,10 @@
 import config from "../config"
 import VList from "../components/VList"
 import { useEffect, useReducer, useState } from "react"
-import { Video, VideoData, VideoType } from "@/typings"
+import { Video, VideoType } from "@/typings"
 import { useLocation } from "react-router-dom"
 import { setTitle } from "@/utils"
-
-async function getVideoData(): Promise<VideoData> {
-  const res = await fetch('/data/video.json')
-  return res.json()
-}
+import videodatastate from "@/utils/videodata.state"
 
 const initVideoDataState = {
   version: '',
@@ -21,14 +17,15 @@ export default function Home() {
   const location = useLocation()
   useEffect(() => {
     (async () => {
-      const { version, updateDatetime, data } = await getVideoData()
+      // const { version, updateDatetime, data } = await getVideoData()
+      const { version, updateDatetime, data } = await videodatastate.getVideoData()
       dispatchVideoDataState({ type: VideoDataStateActionType.VERSIONSE_TED, payload: version })
       dispatchVideoDataState({ type: VideoDataStateActionType.UPDATEDATETIME_SETED, payload: updateDatetime })
       setVideoDataList(data)
     })()
   }, [])
   useEffect(() => {
-    setTitle(`${location.state?.title?`${location.state.title} | `:''}${config.TITLE}`)
+    setTitle(`${config.TITLE}`)
   }, [location])
   return (
     <>
