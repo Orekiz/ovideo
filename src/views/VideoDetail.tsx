@@ -50,8 +50,8 @@ export default function VideoDetail() {
     }
   }, [location, params])
   return (
-    <div className="h-full py-4 grid grid-rows-[auto_1fr]">
-      <div className="flex justify-between items-center">
+    <div className="h-full grid grid-rows-[auto_1fr]">
+      <div className="pt-4 flex justify-between items-center">
         <Link to="/" className="text-xl font-bold">{config.TITLE}</Link>
         <div>
           <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-xl text-sub hover:text-gray-2 transition align-middle'></a>

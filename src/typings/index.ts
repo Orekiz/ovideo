@@ -26,6 +26,7 @@ export enum VideoType {
 export enum VideoArea {
   '内地',
   "韩国",
+  "美国",
 }
 
 export interface EP {
