@@ -7,9 +7,10 @@ import config from "../config"
 import { setTitle } from "@/utils"
 import videodataState from "@/utils/videodata.state"
 import Footer from "@/components/Footer"
+import {motion} from 'framer-motion'
 
 const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all'
-const videoDetailContainerClassNameCloseSlide = "w-0 h-0 rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all"
+const videoDetailContainerClassNameCloseSlide = "w-2 rounded-lg transition-all duration-300"
 export default function VideoDetail() {
   const location = useLocation()
   const params = useParams()
@@ -57,36 +58,53 @@ export default function VideoDetail() {
           <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
       </div>
-      <div className="pt-4 flex gap-4 max-md:flex-col transition-all md:overflow-hidden">
-        <section className="md:flex-1 flex max-md:h-50vh">
+      <div className={`pt-4 flex ${isSlideClosed?'gap-1':'gap-4'} max-md:flex-col transition-all md:overflow-hidden`}>
+        <section className="md:flex-1 max-md:h-50vh">
           {/* <VideoComp url={state?.eps[epChoosed].url} type={state?.eps[epChoosed].type} /> */}
           <Outlet context={{type:state?.eps[epChoosed].type, url:state?.eps[epChoosed].url} satisfies VideoCompDto}></Outlet>
-          <div
-            className={`${isSlideClosed?'':'hidden!'} w-2 h-full ml-1 font-bold flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
-            onClick={handleToggleSlide}
-          >
-            &lt;
-          </div>
         </section>
-        <section className={videoDetailContainerClassName}>
-          <h2 className="font-bold">{state?.name}</h2>
-          <section className="text-sub">
-            <p>
-              {
-                videoKeywords.map((tag, index) => {
-                  return <span key={index}>{index>0?' · ':''}{tag}</span>
-                })
-              }
-            </p>
-            <p>全{ state?.epCount }集</p>
-          </section>
-          <p className="mt-4">正在播放：{state?.eps[epChoosed].title}</p>
-          <div className="mt-4">
-            <ChooseEp eps={state?.eps} epChoosed={epChoosed} chooseEvent={handleChooseEp} />
-          </div>
-          <div className="my-4">
-            <button className="my-button font-bold max-md:hidden" onClick={handleToggleSlide}>关闭侧栏</button>
-          </div>
+        <section
+          className={videoDetailContainerClassName}
+         >
+        {
+          isSlideClosed?
+            (
+              <motion.div
+                animate={{width: '100%',height:'100%',opacity:1}}
+                className={`opacity-0 font-bold text-xs flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
+                onClick={handleToggleSlide}
+                key="slideOpened"
+              >
+                &lt;
+              </motion.div>
+            )
+            :(
+              <motion.div
+                animate={{opacity:1}}
+                className="opacity-0"
+                key="slideClosed"
+              >
+                <h2 className="font-bold">{state?.name}</h2>
+                <section className="text-sub">
+                  <p>
+                    {
+                      videoKeywords.map((tag, index) => {
+                        return <span key={index}>{index>0?' · ':''}{tag}</span>
+                      })
+                    }
+                  </p>
+                  <p>全{ state?.epCount }集</p>
+                </section>
+                <p className="mt-4">正在播放：{state?.eps[epChoosed].title}</p>
+                <div className="mt-4">
+                  <ChooseEp eps={state?.eps} epChoosed={epChoosed} chooseEvent={handleChooseEp} />
+                </div>
+                <div className="my-4">
+                  <button className="my-button font-bold max-md:hidden" onClick={handleToggleSlide}>关闭侧栏</button>
+                </div>
+              </motion.div>
+            )
+        }
         </section>
       </div>
       <Footer />
