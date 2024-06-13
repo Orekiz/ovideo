@@ -6,6 +6,7 @@ import ChooseEp from "../components/ChooseEp"
 import config from "../config"
 import { setTitle } from "@/utils"
 import videodataState from "@/utils/videodata.state"
+import Footer from "@/components/Footer"
 
 const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all'
 const videoDetailContainerClassNameCloseSlide = "w-0 h-0 rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all"
@@ -50,8 +51,11 @@ export default function VideoDetail() {
   }, [location, params])
   return (
     <div className="h-full py-4 grid grid-rows-[auto_1fr]">
-      <div>
+      <div className="flex justify-between items-center">
         <Link to="/" className="text-xl font-bold">{config.TITLE}</Link>
+        <div>
+          <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-xl text-sub hover:text-gray-2 transition align-middle'></a>
+        </div>
       </div>
       <div className="pt-4 flex gap-4 max-md:flex-col transition-all md:overflow-hidden">
         <section className="md:flex-1 flex max-md:h-50vh">
@@ -85,9 +89,7 @@ export default function VideoDetail() {
           </div>
         </section>
       </div>
-      <div className="pt-2 m-auto max-w-5xl">
-        <p className="text-center text-sub text-sm font-light">声明：本站为非盈利性站点，仅供WEB在线展示学习交流，拒绝一切商业行为，否者后果自负！所涉及资源均来源于互联网，本站不提供任何视频资源存储，也不参与录制和上传。若无意侵犯了您的权利，请与我们取得联系<a href="mailto:hurricane_233@163.com" className="underline">@Oreki</a>，我们会第一时间核实和处理，谢谢！</p>
-      </div>
+      <Footer />
     </div>
   )
 }
