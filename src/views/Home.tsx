@@ -38,12 +38,13 @@ export default function Home() {
       </header>
       <span className="text-sm text-sub">视频数据版本: v{videoDataState.version}，更新时间: {videoDataState.updateDatetime}</span>
       <section>
-        <h2 className="py-4">电视剧</h2>
+        <h2 className="py-4">剧集</h2>
         <VList videos={videoDataList.filter(video => video.type === VideoType.TV)} />
       </section>
-      {/* <section>
+      <section>
         <h2 className="py-4">电影</h2>
-      </section> */}
+        <VList videos={videoDataList.filter(video => video.type === VideoType.MOVIE)} />
+      </section>
       <Footer />
     </>
   )
