@@ -2,9 +2,9 @@
 import { lazy, Suspense } from 'react'
 import ReactDOM from 'react-dom/client'
 import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import App from './App.tsx'
 import './index.css'
 import 'uno.css'
-import App from './App.tsx'
 
 const VideoDetailLazy = lazy(() => import('@/views/VideoDetail.tsx'))
 const VideolLazy = lazy(() => import('@/components/Video.tsx'))

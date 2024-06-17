@@ -8,6 +8,7 @@ import { setTitle } from "@/utils"
 import videodataState from "@/utils/videodata.state"
 import Footer from "@/components/Footer"
 import {motion} from 'framer-motion'
+import { ConfigProvider, theme } from 'antd'
 
 const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all'
 const videoDetailContainerClassNameCloseSlide = "w-2 rounded-lg transition-all duration-300"
@@ -20,9 +21,11 @@ export default function VideoDetail() {
   const [epChoosed, setEpChoosed] = useState<number>(0)
   const [isSlideClosed, setIsSlideClosed] = useState(false)
   const [videoDetailContainerClassName, svdcc] = useState(videoDetailContainerClassNameBase)
+  const [antdTheme, setAntdTheme] = useState<'light'|'dark'>('light')
   const handleChooseEp = (choose: number) => {
     setEpChoosed(choose)
-    navigate(`/video/${location.state.id}/${choose+1}`, {state:location.state})
+    console.log('chooseep', choose)
+    navigate(`/video/${state?.id}/${choose+1}`, {state})
   }
   const handleToggleSlide = () => {
     if (!isSlideClosed) {
@@ -35,7 +38,8 @@ export default function VideoDetail() {
   useEffect(() => {
     // 直接进路由会没有state
     if (location.state) {
-      console.log(location)
+      if(state)
+        return
       setTitle(`${location.state.name} | ${config.TITLE}`)
       setState(location.state)
       setVideoKeywords([VideoArea[location.state.area], location.state.year, ...location.state.tags])
@@ -49,11 +53,46 @@ export default function VideoDetail() {
         setVideoKeywords([VideoArea[state.area], state.year, ...state.tags])
       })()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, params])
+  useEffect(() => {
+    // 拿到用户的亮色暗色主题选择
+    const prefersColorSchemeDark = window.matchMedia('(prefers-color-scheme: dark)')
+    // 更改antd主题
+    if (prefersColorSchemeDark.matches)
+      setAntdTheme('dark')
+    prefersColorSchemeDark.addEventListener('change', (e) => {
+      if (e.matches)
+        setAntdTheme('dark')
+      else
+        setAntdTheme('light')
+    })
+  }, [])
   return (
-    <div className="h-full grid grid-rows-[auto_1fr]">
+    <ConfigProvider
+      theme={{
+        algorithm: antdTheme==='light'?theme.defaultAlgorithm:theme.darkAlgorithm,
+        token: {
+          borderRadius: 8,
+          colorPrimary: "#6d28d9",
+        }
+      }}
+    >
+    <div className="h-full grid grid-rows-[auto_1fr_auto]">
       <div className="pt-4 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold">{config.TITLE}</Link>
+        <div className="flex items-center gap-4">
+          <Link to="/" className="text-xl font-bold">{config.TITLE}</Link>
+          {
+            isSlideClosed && 
+            <motion.p
+              animate={{opacity:1}}
+              initial={{opacity:0}}
+              className="font-bold"
+            >
+              {state?.name}
+            </motion.p>
+          }
+        </div>
         <div>
           <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
@@ -70,8 +109,8 @@ export default function VideoDetail() {
           isSlideClosed?
             (
               <motion.div
-                animate={{width: '100%',height:'100%',opacity:1}}
-                className={`opacity-0 font-bold text-xs flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
+                animate={{width: '100%',height:'100%',opacity:.3}}
+                className={`opacity-0 hover:opacity-70! font-bold text-xs flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
                 onClick={handleToggleSlide}
                 key="slideOpened"
               >
@@ -94,6 +133,7 @@ export default function VideoDetail() {
                     }
                   </p>
                   <p>全{ state?.epCount }集</p>
+                  <p className="text-sm">更新时间：{ new Date(state?.updateTimestamp?state.updateTimestamp*1000:'').toLocaleDateString() }</p>
                 </section>
                 <p className="mt-4">正在播放：{state?.eps[epChoosed].title}</p>
                 <div className="mt-4">
@@ -109,5 +149,6 @@ export default function VideoDetail() {
       </div>
       <Footer />
     </div>
+    </ConfigProvider>
   )
 }
