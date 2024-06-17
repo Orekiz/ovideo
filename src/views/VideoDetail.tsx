@@ -8,7 +8,7 @@ import { setTitle } from "@/utils"
 import videodataState from "@/utils/videodata.state"
 import Footer from "@/components/Footer"
 import {motion} from 'framer-motion'
-import { ConfigProvider, theme } from 'antd'
+import { Alert, ConfigProvider, theme } from 'antd'
 
 const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all'
 const videoDetailContainerClassNameCloseSlide = "w-2 rounded-lg transition-all duration-300"
@@ -123,6 +123,9 @@ export default function VideoDetail() {
                 className="opacity-0"
                 key="slideClosed"
               >
+                {
+                  state?.alert !== '' && <Alert message={state?.alert} type="warning" showIcon className="mb-2" />
+                }
                 <h2 className="font-bold">{state?.name}</h2>
                 <section className="text-sub">
                   <p>

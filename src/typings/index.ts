@@ -7,8 +7,9 @@ export interface VideoData {
 export interface Video {
   id: string,
   updateTimestamp: number,
+  alert: string,
+  type: VideoType,
   name: string,
-  type: VideoType
   subtitle: string,
   area: VideoArea,
   year: string,

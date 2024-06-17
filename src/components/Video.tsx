@@ -37,7 +37,6 @@ function VideoCompHls({ url }: VideoCompHlsDto) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [messageApi, contextHolder] = message.useMessage()
   useEffect(() => {
-    console.log('reload')
     videoRef.current!.volume = 0.5
   }, [])
   // TODO: 实现hls播放
