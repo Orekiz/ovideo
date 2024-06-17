@@ -22,7 +22,8 @@ export default function VideoDetail() {
   const [videoDetailContainerClassName, svdcc] = useState(videoDetailContainerClassNameBase)
   const handleChooseEp = (choose: number) => {
     setEpChoosed(choose)
-    navigate(`/video/${location.state.id}/${choose+1}`, {state:location.state})
+    console.log('chooseep', choose)
+    navigate(`/video/${state?.id}/${choose+1}`, {state})
   }
   const handleToggleSlide = () => {
     if (!isSlideClosed) {
