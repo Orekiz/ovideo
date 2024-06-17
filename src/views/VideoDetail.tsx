@@ -51,9 +51,21 @@ export default function VideoDetail() {
     }
   }, [location, params])
   return (
-    <div className="h-full grid grid-rows-[auto_1fr]">
+    <div className="h-full grid grid-rows-[auto_1fr_auto]">
       <div className="pt-4 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold">{config.TITLE}</Link>
+        <div className="flex items-center gap-4">
+          <Link to="/" className="text-xl font-bold">{config.TITLE}</Link>
+          {
+            isSlideClosed && 
+            <motion.p
+              animate={{opacity:1}}
+              initial={{opacity:0}}
+              className="font-bold"
+            >
+              {state?.name}
+            </motion.p>
+          }
+        </div>
         <div>
           <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
@@ -70,8 +82,8 @@ export default function VideoDetail() {
           isSlideClosed?
             (
               <motion.div
-                animate={{width: '100%',height:'100%',opacity:1}}
-                className={`opacity-0 font-bold text-xs flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
+                animate={{width: '100%',height:'100%',opacity:.3}}
+                className={`opacity-0 hover:opacity-70! font-bold text-xs flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
                 onClick={handleToggleSlide}
                 key="slideOpened"
               >
@@ -94,6 +106,7 @@ export default function VideoDetail() {
                     }
                   </p>
                   <p>全{ state?.epCount }集</p>
+                  <p className="text-sm">更新时间：{ new Date(state?.updateTimestamp?state.updateTimestamp*1000:'').toLocaleDateString() }</p>
                 </section>
                 <p className="mt-4">正在播放：{state?.eps[epChoosed].title}</p>
                 <div className="mt-4">

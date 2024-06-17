@@ -33,10 +33,10 @@ export default function Home() {
       <header className="flex justify-between items-center">
         <h1 className="text-3xl py-5">{config.TITLE}</h1>
         <div>
-          <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-xl text-sub hover:text-gray-2 transition align-middle'></a>
+          <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-2xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
       </header>
-      <span className="text-sm text-sub">视频数据版本: v{videoDataState.version}，更新时间: {videoDataState.updateDatetime}</span>
+      <span className="text-sm text-sub">视频数据版本: v{videoDataState.version}，更新时间: {new Date(videoDataState.updateDatetime*1000).toLocaleString()}</span>
       <section>
         <h2 className="py-4">剧集</h2>
         <VList videos={videoDataList.filter(video => video.type === VideoType.TV)} />
