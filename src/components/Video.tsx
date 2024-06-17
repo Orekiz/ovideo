@@ -44,6 +44,21 @@ function VideoCompHls({ url }: VideoCompHlsDto) {
     const hls = new Hls()
     hls.loadSource(url)
     hls.attachMedia(videoRef.current!)
+    hls.on(Hls.Events.ERROR, (_, data) => {
+      switch(data.type) {
+        case Hls.ErrorTypes.NETWORK_ERROR: {
+          alert(`网络错误 ${data.response?.data}`)
+          return
+        }
+        case Hls.ErrorTypes.MEDIA_ERROR: {
+          alert('媒体错误')
+          return
+        }
+        default: {
+          alert('未知错误')
+        }
+      }
+    })
   }, [url])
   return (
     <video ref={videoRef} onCanPlay={() => videoRef.current?.play()} controls className='w-full h-full rounded-lg bg-black outline-none'></video>
