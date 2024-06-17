@@ -1,7 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { SyntheticEvent, useEffect, useRef } from 'react'
 import { EPType } from '@/typings'
 import Hls from 'hls.js'
 import { useOutletContext } from 'react-router-dom'
+import { message } from 'antd'
 
 export interface VideoCompDto {
   url?: string,
@@ -34,33 +35,46 @@ interface VideoCompHlsDto {
 
 function VideoCompHls({ url }: VideoCompHlsDto) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const [messageApi, contextHolder] = message.useMessage()
   useEffect(() => {
+    console.log('reload')
     videoRef.current!.volume = 0.5
   }, [])
   // TODO: 实现hls播放
   useEffect(() => {
-    if (!Hls.isSupported)
+    // message展示视频加载状态
+    messageApi.loading({ content: '加载中...', key: 'video-loading', duration: 0 })
+    if (!Hls.isSupported())
       return
     const hls = new Hls()
     hls.loadSource(url)
     hls.attachMedia(videoRef.current!)
+    hls.on(Hls.Events.MANIFEST_PARSED, () => {
+      messageApi.success({ content: '视频资源加载成功!', key: 'video-loading' })
+    })
     hls.on(Hls.Events.ERROR, (_, data) => {
       switch(data.type) {
         case Hls.ErrorTypes.NETWORK_ERROR: {
-          alert(`网络错误 ${data.response?.data}`)
+          messageApi.error({ content: '网络错误, 视频加载失败', key: 'video-loading', duration: 0 })
           return
         }
         case Hls.ErrorTypes.MEDIA_ERROR: {
-          alert('媒体错误')
+          messageApi.error({ content: '播放错误', key: 'video-loading' })
           return
         }
         default: {
-          alert('未知错误')
+          messageApi.error({ content: '未知错误', key: 'video-loading' })
         }
       }
     })
-  }, [url])
+  }, [url, messageApi])
+  const handleCanPlay = (e: SyntheticEvent<HTMLVideoElement>) => {
+    e.currentTarget.play()
+  }
   return (
-    <video ref={videoRef} onCanPlay={() => videoRef.current?.play()} controls className='w-full h-full rounded-lg bg-black outline-none'></video>
+    <>
+      { contextHolder }
+      <video ref={videoRef} onCanPlay={handleCanPlay} controls className='w-full h-full rounded-lg bg-black outline-none'></video>
+    </>
   )
 }

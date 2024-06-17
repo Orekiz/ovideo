@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@iconify-json/mdi": "^1.1.66",
+    "antd": "^5.18.2",
     "framer-motion": "^11.2.10",
     "hls.js": "^1.5.11",
     "react": "^18.2.0",
