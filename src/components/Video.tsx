@@ -67,6 +67,10 @@ function VideoCompHls({ url }: VideoCompHlsDto) {
         }
       }
     })
+    return () => {
+      // 组建更新需要销毁hls实例
+      hls.destroy()
+    }
   }, [url, messageApi])
   const handleCanPlay = (e: SyntheticEvent<HTMLVideoElement>) => {
     e.currentTarget.play()
