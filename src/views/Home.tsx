@@ -4,7 +4,7 @@ import { useEffect, useReducer, useState } from "react"
 import { Video, VideoType } from "@/typings"
 import { useLocation } from "react-router-dom"
 import { setTitle } from "@/utils"
-import videodatastate from "@/utils/videodata.state"
+import videodatastate from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
 
 const initVideoDataState = {

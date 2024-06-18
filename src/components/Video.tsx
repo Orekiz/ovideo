@@ -54,7 +54,7 @@ function VideoCompHls({ url }: VideoCompHlsDto) {
     hls.on(Hls.Events.ERROR, (_, data) => {
       switch(data.type) {
         case Hls.ErrorTypes.NETWORK_ERROR: {
-          messageApi.error({ content: '网络错误, 视频加载失败', key: 'video-loading', duration: 0 })
+          messageApi.error({ content: '网络错误, 视频加载失败', key: 'video-loading', duration: 5 })
           return
         }
         case Hls.ErrorTypes.MEDIA_ERROR: {

@@ -5,7 +5,7 @@ import { VideoCompDto } from "../components/Video"
 import ChooseEp from "../components/ChooseEp"
 import config from "../config"
 import { setTitle } from "@/utils"
-import videodataState from "@/utils/videodata.state"
+import videodataState from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
 import {motion} from 'framer-motion'
 import { Alert, ConfigProvider, theme } from 'antd'
@@ -38,8 +38,10 @@ export default function VideoDetail() {
   useEffect(() => {
     // 直接进路由会没有state
     if (location.state) {
-      if(state)
+      if(state) {
+        setEpChoosed(parseInt(params.ep!) - 1)
         return
+      }
       setTitle(`${location.state.name} | ${config.TITLE}`)
       setState(location.state)
       setVideoKeywords([VideoArea[location.state.area], location.state.year, ...location.state.tags])
