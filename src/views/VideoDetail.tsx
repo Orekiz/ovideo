@@ -137,7 +137,10 @@ export default function VideoDetail() {
                       })
                     }
                   </p>
-                  <p>全{ state?.epCount }集</p>
+                  {
+                    // 剧集类型的视频显示全多少集
+                    state?.type === 0 && <p>全{ state?.epCount }集</p>
+                  }
                   <p className="text-sm">更新时间：{ new Date(state?.updateTimestamp?state.updateTimestamp*1000:'').toLocaleDateString() }</p>
                 </section>
                 <p className="mt-4">正在播放：{state?.eps[epChoosed].title}</p>
