@@ -126,7 +126,7 @@ export default function VideoDetail() {
                 key="slideClosed"
               >
                 {
-                  state?.alert !== '' && <Alert message={state?.alert} type="warning" showIcon className="mb-2" />
+                  state?.alert !== '' && <Alert message={state?.alert} type="warning" showIcon closable className="mb-2" />
                 }
                 <h2 className="font-bold">{state?.name}</h2>
                 <section className="text-sub">
