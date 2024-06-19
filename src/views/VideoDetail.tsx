@@ -5,10 +5,10 @@ import { VideoCompDto } from "../components/Video"
 import ChooseEp from "../components/ChooseEp"
 import config from "../config"
 import { setTitle } from "@/utils"
-import videodataState from "@/utils/videodata.state"
+import videodataState from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
 import {motion} from 'framer-motion'
-import { ConfigProvider, theme } from 'antd'
+import { Alert, ConfigProvider, theme } from 'antd'
 
 const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all'
 const videoDetailContainerClassNameCloseSlide = "w-2 rounded-lg transition-all duration-300"
@@ -38,8 +38,10 @@ export default function VideoDetail() {
   useEffect(() => {
     // 直接进路由会没有state
     if (location.state) {
-      if(state)
+      if(state) {
+        setEpChoosed(parseInt(params.ep!) - 1)
         return
+      }
       setTitle(`${location.state.name} | ${config.TITLE}`)
       setState(location.state)
       setVideoKeywords([VideoArea[location.state.area], location.state.year, ...location.state.tags])
@@ -123,6 +125,9 @@ export default function VideoDetail() {
                 className="opacity-0"
                 key="slideClosed"
               >
+                {
+                  state?.alert !== '' && <Alert message={state?.alert} type="warning" showIcon closable className="mb-2" />
+                }
                 <h2 className="font-bold">{state?.name}</h2>
                 <section className="text-sub">
                   <p>
@@ -132,7 +137,10 @@ export default function VideoDetail() {
                       })
                     }
                   </p>
-                  <p>全{ state?.epCount }集</p>
+                  {
+                    // 剧集类型的视频显示全多少集
+                    state?.type === 0 && <p>全{ state?.epCount }集</p>
+                  }
                   <p className="text-sm">更新时间：{ new Date(state?.updateTimestamp?state.updateTimestamp*1000:'').toLocaleDateString() }</p>
                 </section>
                 <p className="mt-4">正在播放：{state?.eps[epChoosed].title}</p>
