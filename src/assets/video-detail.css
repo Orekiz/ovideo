@@ -1,0 +1,11 @@
+.video-bg::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-image: radial-gradient(ellipse 65% 60% at 50% 50%, var(--theme-color), transparent);
+  opacity: .3;
+  z-index: -1;
+}

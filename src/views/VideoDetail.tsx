@@ -9,8 +9,10 @@ import videodataState from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
 import {motion} from 'framer-motion'
 import { Alert, ConfigProvider, theme } from 'antd'
+import Logo from "@/components/Logo"
+import '@/assets/video-detail.css'
 
-const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all'
+const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-100 @dark:bg-[rgb(48_48_48)] transition-all'
 const videoDetailContainerClassNameCloseSlide = "w-2 rounded-lg transition-all duration-300"
 export default function VideoDetail() {
   const location = useLocation()
@@ -80,10 +82,12 @@ export default function VideoDetail() {
         }
       }}
     >
-    <div className="h-full grid grid-rows-[auto_1fr_auto]">
+    <div className="video-bg h-full grid grid-rows-[auto_1fr_auto]">
       <div className="pt-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <Link to="/" className="text-xl font-bold">{config.TITLE}</Link>
+          <Link to="/">
+            <Logo className="text-xl cursor-pointer" />
+          </Link>
           {
             isSlideClosed && 
             <motion.p
@@ -96,11 +100,11 @@ export default function VideoDetail() {
           }
         </div>
         <div>
-          <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-xl text-sub hover:text-gray-2 transition align-middle'></a>
+          <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-2xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
       </div>
       <div className={`pt-4 flex ${isSlideClosed?'gap-1':'gap-4'} max-md:flex-col transition-all md:overflow-hidden`}>
-        <section className="md:flex-1 max-md:h-50vh">
+        <section className="md:flex-1 max-md:h-38vh">
           {/* <VideoComp url={state?.eps[epChoosed].url} type={state?.eps[epChoosed].type} /> */}
           <Outlet context={{type:state?.eps[epChoosed].type, url:state?.eps[epChoosed].url} satisfies VideoCompDto}></Outlet>
         </section>

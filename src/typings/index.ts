@@ -27,6 +27,9 @@ export enum VideoType {
 export enum VideoArea {
   '内地',
   "韩国",
+  "中国台湾",
+  "中国香港",
+  "日本",
   "美国",
 }
 
