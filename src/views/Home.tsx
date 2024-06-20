@@ -6,6 +6,8 @@ import { useLocation } from "react-router-dom"
 import { setTitle } from "@/utils"
 import videodatastate from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
+import '@/assets/home.css'
+import Logo from "@/components/Logo"
 
 const initVideoDataState = {
   version: '',
@@ -30,19 +32,19 @@ export default function Home() {
   }, [location])
   return (
     <>
-      <header className="flex justify-between items-center">
-        <h1 className="text-3xl py-5">{config.TITLE}</h1>
+      <header className="home-header flex justify-between items-center">
+        <Logo className="py-4" />
         <div>
           <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-2xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
       </header>
       <span className="text-sm text-sub">视频数据版本: v{videoDataState.version}，更新时间: {new Date(videoDataState.updateDatetime*1000).toLocaleString()}</span>
       <section>
-        <h2 className="py-4">剧集</h2>
+        <h2 className="home-vlist-title home-title-ep py-4 drop-shadow">剧集</h2>
         <VList videos={videoDataList.filter(video => video.type === VideoType.TV)} />
       </section>
       <section>
-        <h2 className="py-4">电影</h2>
+        <h2 className="home-vlist-title home-title-movie py-4 drop-shadow">电影</h2>
         <VList videos={videoDataList.filter(video => video.type === VideoType.MOVIE)} />
       </section>
       <Footer />
