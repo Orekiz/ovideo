@@ -8,7 +8,7 @@ import { setTitle } from "@/utils"
 import videodataState from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
 import {motion} from 'framer-motion'
-import { Alert, ConfigProvider, theme } from 'antd'
+import { Alert } from 'antd'
 import Logo from "@/components/Logo"
 import '@/assets/video-detail.css'
 
@@ -23,7 +23,7 @@ export default function VideoDetail() {
   const [epChoosed, setEpChoosed] = useState<number>(0)
   const [isSlideClosed, setIsSlideClosed] = useState(false)
   const [videoDetailContainerClassName, svdcc] = useState(videoDetailContainerClassNameBase)
-  const [antdTheme, setAntdTheme] = useState<'light'|'dark'>('light')
+  
   const handleChooseEp = (choose: number) => {
     setEpChoosed(choose)
     console.log('chooseep', choose)
@@ -59,29 +59,7 @@ export default function VideoDetail() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, params])
-  useEffect(() => {
-    // 拿到用户的亮色暗色主题选择
-    const prefersColorSchemeDark = window.matchMedia('(prefers-color-scheme: dark)')
-    // 更改antd主题
-    if (prefersColorSchemeDark.matches)
-      setAntdTheme('dark')
-    prefersColorSchemeDark.addEventListener('change', (e) => {
-      if (e.matches)
-        setAntdTheme('dark')
-      else
-        setAntdTheme('light')
-    })
-  }, [])
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: antdTheme==='light'?theme.defaultAlgorithm:theme.darkAlgorithm,
-        token: {
-          borderRadius: 8,
-          colorPrimary: "#6d28d9",
-        }
-      }}
-    >
     <div className="video-bg h-full grid grid-rows-[auto_1fr_auto]">
       <div className="pt-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
@@ -161,6 +139,5 @@ export default function VideoDetail() {
       </div>
       <Footer />
     </div>
-    </ConfigProvider>
   )
 }

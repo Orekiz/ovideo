@@ -6,8 +6,8 @@ import { useLocation } from "react-router-dom"
 import { setTitle } from "@/utils"
 import videodatastate from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
-import '@/assets/home.css'
 import Logo from "@/components/Logo"
+import '@/assets/home.css'
 
 const initVideoDataState = {
   version: '',

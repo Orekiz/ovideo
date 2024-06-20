@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom'
 import App from './App.tsx'
 import './index.css'
 import 'uno.css'
+import Home from './views/Home.tsx'
 
 const VideoDetailLazy = lazy(() => import('@/views/VideoDetail.tsx'))
 const VideolLazy = lazy(() => import('@/components/Video.tsx'))
@@ -13,17 +14,23 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-  },
-  {
-    path: '/video/:id',
-    element: <Suspense fallback={<>loading...</>}><VideoDetailLazy /></Suspense>,
     children: [
       {
-        path: ':ep',
-        element: <Suspense fallback={<>loading...</>}><VideolLazy /></Suspense>,
+        path: '',
+        element: <Home />
+      },
+      {
+        path: '/video/:id',
+        element: <Suspense fallback={<>loading...</>}><VideoDetailLazy /></Suspense>,
+        children: [
+          {
+            path: ':ep',
+            element: <Suspense fallback={<>loading...</>}><VideolLazy /></Suspense>,
+          }
+        ]
       }
     ]
-  }
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
