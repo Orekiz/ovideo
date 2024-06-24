@@ -6,6 +6,8 @@ import App from './App.tsx'
 import './index.css'
 import 'uno.css'
 import Home from './views/Home.tsx'
+import ErrorView from './views/ErrorView.tsx'
+import Error404 from './views/Error404.tsx'
 
 const VideoDetailLazy = lazy(() => import('@/views/VideoDetail.tsx'))
 const VideolLazy = lazy(() => import('@/components/Video.tsx'))
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
       }
     ]
   },
+  {
+    path: '/404',
+    element: <Error404 />
+  },
+  {
+    path: '*',
+    element: <ErrorView />
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
