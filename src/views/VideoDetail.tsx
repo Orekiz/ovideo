@@ -8,9 +8,11 @@ import { setTitle } from "@/utils"
 import videodataState from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
 import {motion} from 'framer-motion'
-import { Alert, ConfigProvider, theme } from 'antd'
+import { Alert } from 'antd'
+import Logo from "@/components/Logo"
+import '@/assets/video-detail.css'
 
-const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-200 @dark:bg-[rgba(255,255,255,.1)] transition-all'
+const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-100 @dark:bg-[rgb(48_48_48)] transition-all'
 const videoDetailContainerClassNameCloseSlide = "w-2 rounded-lg transition-all duration-300"
 export default function VideoDetail() {
   const location = useLocation()
@@ -21,7 +23,7 @@ export default function VideoDetail() {
   const [epChoosed, setEpChoosed] = useState<number>(0)
   const [isSlideClosed, setIsSlideClosed] = useState(false)
   const [videoDetailContainerClassName, svdcc] = useState(videoDetailContainerClassNameBase)
-  const [antdTheme, setAntdTheme] = useState<'light'|'dark'>('light')
+  
   const handleChooseEp = (choose: number) => {
     setEpChoosed(choose)
     console.log('chooseep', choose)
@@ -57,33 +59,13 @@ export default function VideoDetail() {
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, params])
-  useEffect(() => {
-    // 拿到用户的亮色暗色主题选择
-    const prefersColorSchemeDark = window.matchMedia('(prefers-color-scheme: dark)')
-    // 更改antd主题
-    if (prefersColorSchemeDark.matches)
-      setAntdTheme('dark')
-    prefersColorSchemeDark.addEventListener('change', (e) => {
-      if (e.matches)
-        setAntdTheme('dark')
-      else
-        setAntdTheme('light')
-    })
-  }, [])
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: antdTheme==='light'?theme.defaultAlgorithm:theme.darkAlgorithm,
-        token: {
-          borderRadius: 8,
-          colorPrimary: "#6d28d9",
-        }
-      }}
-    >
-    <div className="h-full grid grid-rows-[auto_1fr_auto]">
+    <div className="video-bg h-full grid grid-rows-[auto_1fr_auto]">
       <div className="pt-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
-          <Link to="/" className="text-xl font-bold">{config.TITLE}</Link>
+          <Link to="/">
+            <Logo className="text-xl cursor-pointer" />
+          </Link>
           {
             isSlideClosed && 
             <motion.p
@@ -96,11 +78,11 @@ export default function VideoDetail() {
           }
         </div>
         <div>
-          <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-xl text-sub hover:text-gray-2 transition align-middle'></a>
+          <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-2xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
       </div>
       <div className={`pt-4 flex ${isSlideClosed?'gap-1':'gap-4'} max-md:flex-col transition-all md:overflow-hidden`}>
-        <section className="md:flex-1 max-md:h-50vh">
+        <section className="md:flex-1 max-md:h-38vh">
           {/* <VideoComp url={state?.eps[epChoosed].url} type={state?.eps[epChoosed].type} /> */}
           <Outlet context={{type:state?.eps[epChoosed].type, url:state?.eps[epChoosed].url} satisfies VideoCompDto}></Outlet>
         </section>
@@ -157,6 +139,5 @@ export default function VideoDetail() {
       </div>
       <Footer />
     </div>
-    </ConfigProvider>
   )
 }

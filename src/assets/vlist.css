@@ -1,0 +1,5 @@
+@media (hover: hover) {
+  .vlist-item:hover {
+    filter: drop-shadow(0 40px 30px rgb(var(--theme-color-content) / .2));
+  }
+}

@@ -1,0 +1,10 @@
+.o-logo {
+  animation: gradient 3s linear infinite;
+  background-size: 200% 100%;
+}
+
+@keyframes gradient {
+  to {
+    background-position: 200% 0;
+  }
+}
