@@ -1,4 +1,4 @@
-.video-bg::after {
+/* .video-bg::after {
   content: "";
   position: fixed;
   top: 0;
@@ -8,4 +8,20 @@
   background-image: radial-gradient(ellipse 65% 60% at 50% 50%, var(--theme-color), transparent);
   opacity: .3;
   z-index: -1;
+} */
+
+.video-bg {
+  animation: ds 6s ease infinite;
+}
+
+@keyframes ds {
+  0% {
+    filter: drop-shadow(0 0 30px rgb(var(--theme-color-content) / .3));
+  }
+  50% {
+    filter: drop-shadow(0 0 150px rgb(var(--theme-color-content) / .1));
+  }
+  100% {
+    filter: drop-shadow(0 0 30px rgb(var(--theme-color-content) / .3));
+  }
 }
