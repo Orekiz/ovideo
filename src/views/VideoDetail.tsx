@@ -10,10 +10,9 @@ import Footer from "@/components/Footer"
 import {motion} from 'framer-motion'
 import { Alert } from 'antd'
 import Logo from "@/components/Logo"
+import clsx from "clsx"
 import '@/assets/video-detail.css'
 
-const videoDetailContainerClassNameBase = 'p-4 w-80 max-md:w-full rounded-lg bg-gray-100 @dark:bg-[rgb(48_48_48)] transition-all'
-const videoDetailContainerClassNameCloseSlide = "w-2 rounded-lg transition-all duration-300"
 export default function VideoDetail() {
   const location = useLocation()
   const params = useParams()
@@ -22,7 +21,6 @@ export default function VideoDetail() {
   const [videoKeywords, setVideoKeywords] = useState<string[]>([])
   const [epChoosed, setEpChoosed] = useState<number>(0)
   const [isSlideClosed, setIsSlideClosed] = useState(false)
-  const [videoDetailContainerClassName, svdcc] = useState(videoDetailContainerClassNameBase)
   
   const handleChooseEp = (choose: number) => {
     setEpChoosed(choose)
@@ -30,11 +28,6 @@ export default function VideoDetail() {
     navigate(`/video/${state?.id}/${choose+1}`, {state})
   }
   const handleToggleSlide = () => {
-    if (!isSlideClosed) {
-      svdcc(videoDetailContainerClassNameCloseSlide)
-    } else {
-      svdcc(videoDetailContainerClassNameBase)
-    }
     setIsSlideClosed(!isSlideClosed)
   }
   useEffect(() => {
@@ -60,7 +53,7 @@ export default function VideoDetail() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, params])
   return (
-    <div className="video-bg h-full grid grid-rows-[auto_1fr_auto]">
+    <div className="h-full grid grid-rows-[auto_1fr_auto]">
       <div className="pt-4 flex justify-between items-center">
         <div className="flex items-center gap-4">
           <Link to="/">
@@ -81,15 +74,15 @@ export default function VideoDetail() {
           <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-2xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
       </div>
-      <div className={`pt-4 flex ${isSlideClosed?'gap-1':'gap-4'} max-md:flex-col transition-all md:overflow-hidden`}>
-        <section className="md:flex-1 max-md:h-38vh">
+      <div className={`video-bg pt-4 flex ${isSlideClosed?'gap-1':'md:gap-4 gap-2'} max-md:flex-col md:overflow-hidden transition-all`}>
+        <section className='md:flex-1 max-md:h-38vh'>
           {/* <VideoComp url={state?.eps[epChoosed].url} type={state?.eps[epChoosed].type} /> */}
           <Outlet context={{type:state?.eps[epChoosed].type, url:state?.eps[epChoosed].url} satisfies VideoCompDto}></Outlet>
         </section>
         <section
-          className={videoDetailContainerClassName}
-         >
-        {
+          className={clsx('overflow-auto',{['w-2 rounded-lg transition-all duration-300']: isSlideClosed}, {['p-4 w-80 max-md:w-full rounded-lg bg-gray-100 @dark:bg-[rgb(48_48_48)] transition-all']:!isSlideClosed})}
+        >
+          {
           isSlideClosed?
             (
               <motion.div
