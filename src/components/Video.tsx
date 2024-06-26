@@ -49,7 +49,7 @@ function VideoCompHls({ url }: VideoCompHlsDto) {
     hls.loadSource(url)
     hls.attachMedia(videoRef.current!)
     hls.on(Hls.Events.MANIFEST_PARSED, () => {
-      messageApi.success({ content: '视频资源加载成功!', key: 'video-loading' })
+      messageApi.success({ content: '资源信息加载成功, 等待视频装载中', key: 'video-loading' })
     })
     hls.on(Hls.Events.ERROR, (_, data) => {
       switch(data.type) {
@@ -58,8 +58,17 @@ function VideoCompHls({ url }: VideoCompHlsDto) {
           return
         }
         case Hls.ErrorTypes.MEDIA_ERROR: {
-          messageApi.error({ content: '播放错误', key: 'video-loading' })
-          return
+          console.log(data)
+          switch(data.details) {
+            case Hls.ErrorDetails.BUFFER_STALLED_ERROR: {
+              messageApi.warning({ content: '视频加载缓慢', duration: 5 })
+              return
+            }
+            default: {
+              // messageApi.error({ content: '播放错误' })
+              return
+            }
+          }
         }
         default: {
           messageApi.error({ content: '未知错误', key: 'video-loading' })
