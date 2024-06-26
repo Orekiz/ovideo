@@ -33,10 +33,7 @@ export default function VideoDetail() {
   useEffect(() => {
     // 直接进路由会没有state
     if (location.state) {
-      if(state) {
-        setEpChoosed(parseInt(params.ep!) - 1)
-        return
-      }
+      setEpChoosed(parseInt(params.ep!) - 1)
       setTitle(`${location.state.name} | ${config.TITLE}`)
       setState(location.state)
       setVideoKeywords([VideoArea[location.state.area], location.state.year, ...location.state.tags])
@@ -74,20 +71,20 @@ export default function VideoDetail() {
           <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-2xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
       </div>
-      <div className={`video-bg pt-4 flex ${isSlideClosed?'gap-1':'md:gap-4 gap-2'} max-md:flex-col md:overflow-hidden transition-all`}>
-        <section className='md:flex-1 max-md:h-38vh'>
+      <div className={`pt-4 text-nowrap flex ${isSlideClosed?'gap-1':'md:gap-4 gap-2'} max-md:flex-col`}>
+        <section className='video-bg md:flex-1 max-md:h-38vh'>
           {/* <VideoComp url={state?.eps[epChoosed].url} type={state?.eps[epChoosed].type} /> */}
           <Outlet context={{type:state?.eps[epChoosed].type, url:state?.eps[epChoosed].url} satisfies VideoCompDto}></Outlet>
         </section>
         <section
-          className={clsx('overflow-auto',{['w-2 rounded-lg transition-all duration-300']: isSlideClosed}, {['p-4 w-80 max-md:w-full rounded-lg bg-gray-100 @dark:bg-[rgb(48_48_48)] transition-all']:!isSlideClosed})}
+          className={clsx('overflow-x-hidden overflow-y-auto',{['w-2 rounded-lg transition-all duration-300']: isSlideClosed}, {['z-0 p-4 w-80 max-md:w-full rounded-lg bg-gray-100 @dark:bg-[rgb(48_48_48)] transition-all']:!isSlideClosed})}
         >
           {
           isSlideClosed?
             (
               <motion.div
                 animate={{width: '100%',height:'100%',opacity:.3}}
-                className={`opacity-0 hover:opacity-70! font-bold text-xs flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
+                className={`opacity-0 hover:opacity-50! font-bold text-xs flex justify-center items-center cursor-pointer rounded-full hover:bg-violet-4`}
                 onClick={handleToggleSlide}
                 key="slideOpened"
               >

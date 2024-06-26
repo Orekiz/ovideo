@@ -77,7 +77,9 @@ function VideoCompHls({ url }: VideoCompHlsDto) {
   return (
     <>
       { contextHolder }
-      <video ref={videoRef} onCanPlay={handleCanPlay} controls className='w-full h-full rounded-lg bg-black outline-none'></video>
+      <div className='w-full h-full relative'>
+        <video ref={videoRef} onCanPlay={handleCanPlay} controls className='z-10 w-full h-full absolute inset-0 rounded-lg bg-black outline-none overflow-hidden'></video>
+      </div>
     </>
   )
 }
