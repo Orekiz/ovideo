@@ -8,6 +8,7 @@ import videodatastate from "@/utils/videodata.store"
 import Footer from "@/components/Footer"
 import Logo from "@/components/Logo"
 import '@/assets/home.css'
+import SearchBar from "@/components/SearchBar"
 
 const initVideoDataState = {
   version: '',
@@ -32,15 +33,19 @@ export default function Home() {
   }, [location])
   return (
     <>
-      <header className="home-header flex justify-between items-center">
+      <header className="home-header flex justify-between items-center gap-4">
         <Logo className="py-4" />
+        <SearchBar />
         <div>
           <a href="http://github.com/orekiz/ovideo" target="_blank" rel="noopener noreferrer" className='inline-block i-mdi-github text-2xl text-sub hover:text-gray-2 transition align-middle'></a>
         </div>
       </header>
       <span className="text-sm text-sub">视频数据版本: v{videoDataState.version}，更新时间: {new Date(videoDataState.updateDatetime*1000).toLocaleString()}</span>
       <section>
-        <h2 className="home-vlist-title home-title-ep py-4 drop-shadow">剧集</h2>
+        <div className="py-4 home-vlist-title home-title-ep  flex justify-between">
+          <h2 className="drop-shadow">剧集</h2>
+          {/* <button className="my-button">更多</button> */}
+        </div>
         <VList videos={videoDataList.filter(video => video.type === VideoType.TV)} />
       </section>
       <section>

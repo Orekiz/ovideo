@@ -11,21 +11,21 @@
 } */
 
 .video-bg {
-  animation: ds 10s ease-out infinite;
-  filter: drop-shadow(-10px -10px 50px rgb(var(--theme-color-content) / .3));
+  animation: ds 8s ease infinite;
+  filter: drop-shadow(-10px -10px 30px rgb(var(--theme-color-content) / .3));
 }
 
 @keyframes ds {
   15% {
-    filter: drop-shadow(10px -10px 50px rgb(var(--theme-color-content) / .3));
+    filter: drop-shadow(10px -10px 60px rgb(var(--theme-color-content) / .3));
   }
   50% {
-    filter: drop-shadow(10px 10px 50px rgb(var(--theme-color-content) / .3));
+    filter: drop-shadow(10px 10px 30px rgb(var(--theme-color-content) / .3));
   }
   75% {
-    filter: drop-shadow(-10px 10px 50px rgb(var(--theme-color-content) / .3));
+    filter: drop-shadow(-10px 10px 60px rgb(var(--theme-color-content) / .3));
   }
   100% {
-    filter: drop-shadow(-10px -10px 50px rgb(var(--theme-color-content) / .3));
+    filter: drop-shadow(-10px -10px 30px rgb(var(--theme-color-content) / .3));
   }
 }
