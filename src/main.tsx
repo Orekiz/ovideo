@@ -11,6 +11,7 @@ import Error404 from './views/Error404.tsx'
 
 const VideoDetailLazy = lazy(() => import('@/views/VideoDetail.tsx'))
 const VideolLazy = lazy(() => import('@/components/Video.tsx'))
+const SearchViewLazy = lazy(() => import('@/views/SearchView.tsx'))
 
 const router = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             element: <Suspense fallback={<>loading...</>}><VideolLazy /></Suspense>,
           }
         ]
+      },
+      {
+        path: '/search',
+        element: <Suspense fallback={<>loading...</>}><SearchViewLazy /></Suspense>,
       }
     ]
   },

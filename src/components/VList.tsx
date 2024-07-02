@@ -14,7 +14,7 @@ export default function VList({ videos }: VListDto ) {
           videos?.sort((a, b) => b.updateTimestamp - a.updateTimestamp).map((video) => {
             return (
               <NavLink
-                to={`video/${video.id}/1`}
+                to={`/video/${video.id}/1`}
                 key={video.id}
                 state={{...video, title: video.name}}
                 className='vlist-item transition'
