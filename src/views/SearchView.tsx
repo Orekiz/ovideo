@@ -6,6 +6,8 @@ import { Video } from "@/typings"
 import videodataStore from "@/utils/videodata.store"
 import { useEffect, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
+import '@/assets/home.css'
+
 function uniqueRes(arr: Video[]) {
   return arr.filter(function(item, index, arr) {
     //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
@@ -41,7 +43,7 @@ export default function SearchView() {
   }, [searchWords, videodata])
   return (
     <section>
-      <header className="flex justify-between items-center">
+      <header className="home-header flex justify-between items-center">
         <div>
           <Link to='/'>
             <Logo className="py-4 cursor-pointer" />
