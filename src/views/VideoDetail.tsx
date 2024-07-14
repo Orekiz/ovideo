@@ -47,7 +47,6 @@ export default function VideoDetail() {
         setVideoKeywords([VideoArea[state.area], state.year, ...state.tags])
       })()
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location, params])
   return (
     <div className="h-full grid grid-rows-[auto_1fr_auto]">

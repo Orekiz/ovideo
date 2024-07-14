@@ -20,15 +20,14 @@ export default function SearchView() {
   const [searchWords, setSearchWords] = useState<string[]>([])
   const [videodata, setVideodata] = useState<Video[]>([])
   const [searchRes, setSearchRes] = useState<Video[]>([])
-  const vdStore = videodataStore
   useEffect(() => {
     setSearchWord(sp.get('w') ?? '')
     setSearchWords(sp.get('w')?.split(/\s+/) ?? [''])
     ;(async () => {
-      const { data } = await vdStore.getVideoData()
+      const { data } = await videodataStore.getVideoData()
       setVideodata(data)
     })()
-  }, [sp, vdStore])
+  }, [sp])
   useEffect(() => {
     if(videodata.length === 0) return
     console.log('searchWords:', searchWords)
@@ -39,7 +38,6 @@ export default function SearchView() {
     // 去重
     setSearchRes(uniqueRes(res))
     console.log('searchRes:', res)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWords, videodata])
   return (
     <section>
@@ -61,6 +59,9 @@ export default function SearchView() {
       <section>
         <h2 className="text-xl p-y-4">搜索结果</h2>
         <VList videos={searchRes} />
+        {
+          !searchRes.length && <p>空</p>
+        }
       </section>
       <Footer />
     </section>

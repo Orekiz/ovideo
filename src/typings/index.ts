@@ -20,7 +20,7 @@ export interface Video {
 }
 
 export enum VideoType {
-  'TV',
+  'EP',
   'MOVIE',
 }
 
