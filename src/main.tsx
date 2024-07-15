@@ -8,6 +8,7 @@ import 'uno.css'
 import Home from './views/Home.tsx'
 import ErrorView from './views/ErrorView.tsx'
 import Error404 from './views/Error404.tsx'
+// import React from 'react'
 
 const VideoDetailLazy = lazy(() => import('@/views/VideoDetail.tsx'))
 const VideolLazy = lazy(() => import('@/components/Video.tsx'))
@@ -49,8 +50,8 @@ const router = createBrowserRouter([
 ])
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <RouterProvider router={router} />
   // <React.StrictMode>
-    // <App />
+    <RouterProvider router={router} />
   // </React.StrictMode>,
+    // <App />
 )

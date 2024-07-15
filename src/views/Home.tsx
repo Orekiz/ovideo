@@ -1,7 +1,7 @@
 import config from "../config"
 import VList from "../components/VList"
 import { useEffect, useReducer, useState } from "react"
-import { Video, VideoType } from "@/typings"
+import { Video } from "@/typings"
 import { useLocation } from "react-router-dom"
 import { setTitle } from "@/utils"
 import videodatastate from "@/utils/videodata.store"
@@ -17,15 +17,16 @@ const initVideoDataState = {
 
 export default function Home() {
   const [videoDataState, dispatchVideoDataState] = useReducer(videoDataStateReducer,initVideoDataState)
-  const [videoDataList, setVideoDataList] = useState<Video[]>([])
+  const [recommandEPs, setRecommandEPs] = useState<Video[]>([])
+  const [recommandMovies, setRecommendMovies] = useState<Video[]>([])
   const location = useLocation()
   useEffect(() => {
     (async () => {
-      // const { version, updateDatetime, data } = await getVideoData()
-      const { version, updateDatetime, data } = await videodatastate.getVideoData()
+      const { version, updateDatetime } = await videodatastate.getVideoData()
       dispatchVideoDataState({ type: VideoDataStateActionType.VERSIONSE_TED, payload: version })
       dispatchVideoDataState({ type: VideoDataStateActionType.UPDATEDATETIME_SETED, payload: updateDatetime })
-      setVideoDataList(data)
+      setRecommandEPs(await videodatastate.getRecommendEPs())
+      setRecommendMovies(await videodatastate.getRecommendMovies())
     })()
   }, [])
   useEffect(() => {
@@ -46,11 +47,11 @@ export default function Home() {
           <h2 className="drop-shadow">剧集</h2>
           {/* <button className="my-button">更多</button> */}
         </div>
-        <VList videos={videoDataList.filter(video => video.type === VideoType.TV)} />
+        <VList videos={recommandEPs} />
       </section>
       <section>
         <h2 className="home-vlist-title home-title-movie py-4 drop-shadow">电影</h2>
-        <VList videos={videoDataList.filter(video => video.type === VideoType.MOVIE)} />
+        <VList videos={recommandMovies} />
       </section>
       <Footer />
     </>

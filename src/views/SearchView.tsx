@@ -6,6 +6,8 @@ import { Video } from "@/typings"
 import videodataStore from "@/utils/videodata.store"
 import { useEffect, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
+import '@/assets/home.css'
+
 function uniqueRes(arr: Video[]) {
   return arr.filter(function(item, index, arr) {
     //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
@@ -18,15 +20,14 @@ export default function SearchView() {
   const [searchWords, setSearchWords] = useState<string[]>([])
   const [videodata, setVideodata] = useState<Video[]>([])
   const [searchRes, setSearchRes] = useState<Video[]>([])
-  const vdStore = videodataStore
   useEffect(() => {
     setSearchWord(sp.get('w') ?? '')
     setSearchWords(sp.get('w')?.split(/\s+/) ?? [''])
     ;(async () => {
-      const { data } = await vdStore.getVideoData()
+      const { data } = await videodataStore.getVideoData()
       setVideodata(data)
     })()
-  }, [sp, vdStore])
+  }, [sp])
   useEffect(() => {
     if(videodata.length === 0) return
     console.log('searchWords:', searchWords)
@@ -37,11 +38,10 @@ export default function SearchView() {
     // 去重
     setSearchRes(uniqueRes(res))
     console.log('searchRes:', res)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchWords, videodata])
   return (
     <section>
-      <header className="flex justify-between items-center">
+      <header className="home-header flex justify-between items-center">
         <div>
           <Link to='/'>
             <Logo className="py-4 cursor-pointer" />
@@ -59,6 +59,9 @@ export default function SearchView() {
       <section>
         <h2 className="text-xl p-y-4">搜索结果</h2>
         <VList videos={searchRes} />
+        {
+          !searchRes.length && <p>空</p>
+        }
       </section>
       <Footer />
     </section>
