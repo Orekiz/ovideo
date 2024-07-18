@@ -4,16 +4,16 @@ import SearchBar from "@/components/SearchBar"
 import VList from "@/components/VList"
 import { Video } from "@/typings"
 import videodataStore from "@/utils/videodata.store"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Link, useSearchParams } from "react-router-dom"
 import '@/assets/home.css'
 
-function uniqueRes(arr: Video[]) {
-  return arr.filter(function(item, index, arr) {
-    //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
-    return arr.indexOf(item, 0) === index;
-  });
-}
+// function uniqueRes(arr: Video[]) {
+//   return arr.filter(function(item, index, arr) {
+//     //当前元素，在原始数组中的第一个索引==当前索引值，否则返回当前元素
+//     return arr.indexOf(item, 0) === index;
+//   });
+// }
 export default function SearchView() {
   const [sp] = useSearchParams()
   const [searchWord, setSearchWord] = useState('')
@@ -28,17 +28,21 @@ export default function SearchView() {
       setVideodata(data)
     })()
   }, [sp])
+  const getSearchRes = useCallback(async () => {
+    console.log('searchWords:', searchWords)
+    // 获取videodata中视频名包含searchWords的视频, 拿这些video的id去请求videoinfo
+    const res = await Promise.all(videodata.filter((v) => searchWords.every((w) => v.name.includes(w))).map((video) => videodataStore.getVideoInfo(video.id)))
+    return res
+  }, [searchWords, videodata])
   useEffect(() => {
     if(videodata.length === 0) return
-    console.log('searchWords:', searchWords)
-    const res = []
-    for (const w of searchWords) {
-      res.push(...videodata.filter((v) => v.name.includes(w)))
-    }
+    ;(async () => {
+      const res = await getSearchRes()
+      console.log('searchRes:', res)
+      setSearchRes(res)
+    })()
     // 去重
-    setSearchRes(uniqueRes(res))
-    console.log('searchRes:', res)
-  }, [searchWords, videodata])
+  }, [getSearchRes, videodata])
   return (
     <section>
       <header className="home-header flex justify-between items-center">
