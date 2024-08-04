@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { Video } from '@/typings'
+import { Video, VideoType } from '@/typings'
 import '@/assets/vlist.css'
 
 interface VListDto {
@@ -19,9 +19,17 @@ export default function VList({ videos }: VListDto ) {
                 state={{...video, title: video.name}}
                 className='vlist-item transition'
               >
-                <img referrerPolicy='no-referrer' src={video.img} alt={video.name} className='w-full rounded-lg aspect-[2/3] object-cover' />
-                <p className='text-center font-bold'>{video.name}</p>
-                <span className='block font-light text-(center sub sm)'>{video.subtitle}</span>
+                <picture className='relative'>
+                  <img referrerPolicy='no-referrer' src={video.img} alt={video.name} className='w-full rounded-lg aspect-[2/3] object-cover' />
+                  <p className='absolute bottom-2 right-2 text-sm p-x-2 rounded-full text-shadow bg-black/50 backdrop-blur-xl'>
+                    {
+                      video.type === VideoType.EP &&
+                      (video.epCount === video.eps?.length ?
+                        <span>完结,全{video.epCount}集</span> :
+                        <span>更新至{video.eps.length}集</span>)
+                    }
+                  </p>
+                </picture>
               </NavLink>
             )
           })
